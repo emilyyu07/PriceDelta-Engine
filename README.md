@@ -1,67 +1,60 @@
-# 💸 SnapBack Price Engine 💸
-
-Automated tracking to snap back your savings.
+# PriceDelta 
+*Automated Retail Intelligence Engine*
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
-**SnapBack** is a full-stack automated price tracking solution that empowers users to monitor product prices across retailers, visualize historical trends, and receive instant alerts when prices drop below their target threshold.
+PriceDelta is a full-stack market intelligence platform that automates retail price tracking, ingesting high-frequency product data, visualizing historical market trends, and execututing real-time alert triggers when prices fluctuate beyond user-defined thresholds.
 
 ## ✨ Key Features
 
 ### 🛒 Intelligent Tracking
 
-- **Automated Scraper Engine:** A background worker system that regularly ingests and normalizes product data from external sources.
-- **Historical Analytics:** Visualizes price trends over time using interactive Recharts graphs, helping users identify the perfect buying moment.
-- **Smart Alerts:** Users define custom price targets. The system runs distinct `alertChecker` jobs to trigger notifications instantly when targets are met.
+- **Automated Scraper Engine:** Background workers (`ingestor.ts`) autonomously scrape and normalize product data from external sources.
+- **Trend Analytics:** Interactive visualization of historical price action using Recharts, helping users identify optimal buying windows.
+- **Smart Alerts:** User-defined custom price targets, with distinct `alertChecker` jobs to trigger instant email notifications when targets are met.
 
-### 🛡️ Secure & Scalable Architecture
+### 🛡️ Secure & Scalable Implementation
 
-- **Robust Authentication:** Full JWT-based auth flow including secure session management and password hashing with Bcrypt.
-- **Type-Safe Development:** Built entirely with TypeScript for rigorous end-to-end type safety from the database (Prisma) to the client (React).
+- **Robust Authentication:** Stateless JWT-based auth flow with secure session management and Bcrypt password hashing.
+- **End-to-End Type Safety:** Strict type sharing between the Prisma database schema and React frontend ensures runtime reliability.
 - **Performance Optimization:** Uses optimistic UI updates and responsive design with Tailwind CSS.
 
-## ⚙️ Core Architecture & System Design
 
-- **Decoupled Micro-Architecture:** Developed a modular Express.js backend using a Controller-Route-Service pattern to ensure separation of concerns between business logic and API orchestration.
+## ⚙️ System Architecture & Data Pipeline
 
-- **Type-Safe Data Modeling:** Leveraged Prisma ORM with PostgreSQL to enforce strict schema definitions, ensuring data integrity across User, Product, and Price History relations.
+### 🏗️ Modular Backend Design
 
-- **Security & Identity:** Implemented a stateless authentication flow using JSON Web Tokens (JWT) and Bcrypt.js for secure password hashing and protected route middleware.
+- **Decoupled Microservices:** Utilizes a Controller-Service pattern in Express.js to strictly separate business logic from API orchestration.
 
-## 📊 Automated Data Pipeline
+- **Data Integrity:** Leverages Prisma ORM with PostgreSQL to enforce strict schema definitions across complex User, Product, and PriceHistory relations.
 
-- **Ingestion Engine:** Built a background data worker (ingestor.ts) designed to fetch, normalize, and upsert product data from external sources into the persistent storage layer.
+### 🔄 Automated Monitoring Workflow
 
-- **Scheduled Monitoring:** Integrated node-cron to orchestrate recurring "Price Check" jobs that execute at defined intervals to detect market fluctuations.
+- **Ingestion Engine:** Built a dedicated worker that fetches raw external data, normalizes it to the internal schema, and upserts it into persistent storage.
 
-- **Trigger-Based Notification Logic:** Developed an asynchronous alertChecker service that evaluates price deltas against user-defined target thresholds to trigger automated communication via Nodemailer.
+- **Scheduled Execution:** Integrated node-cron to orchestrate recurring "Price Check" jobs that detect market fluctuations at defined intervals.
 
-## 🚀 Technologies Used
+- **Async Notification Logic:** Developed an independent service that evaluates price changes against watchlists, dispatching email alerts via Nodemailer only when specific thresholds are met.
 
-### Frontend
 
-- **[React:](https://react.dev/)** Used a component-based architecture with TypeScript to build a modular and scalable user interface.
-- **[TypeScript:](https://www.typescriptlang.org/)** Implemented end-to-end type safety to minimize runtime errors and ensure data consistency with backend models.
-- **[Tailwind CSS:](https://tailwindcss.com/)** Leveraged a utility-first framework to create a responsive, high-performance design system without custom CSS overhead.
-- **[Axios:](https://axios-http.com/)** Configured with a centralized interceptor pattern to handle authenticated API requests and global error management.
-- **[React Router DOM:](https://reactrouter.com/)** Implemented declarative, client-side routing to provide a seamless single-page application (SPA) experience.
-- **[Recharts:](https://recharts.github.io/)** Integrated a composable charting library to visualize complex historical price trends through interactive data visualizations.
-- **[Lucide React:](https://lucide.dev/)** Utilized for a consistent and accessible set of UI icons across the platform.
+## 🚀 Tech Stack
 
-### Backend
+### Frontend  
+
+- **[React (Vite):](https://react.dev/) & [TypeScript:](https://www.typescriptlang.org/)** Modular architecture with strict end-to-end type safety.
+- **[Tailwind CSS:](https://tailwindcss.com/)** Responsive, high-performance styling.
+- **[Axios:](https://axios-http.com/)** Configured with interceptors to handle authenticated API requests and global error management.
+- **[Recharts:](https://recharts.github.io/)** Interactive data visualization for historical price trends.
+
+### Backend  
 
 - **[Node.js](https://nodejs.org/en) & [Express.js:](https://expressjs.com/)** Built a high-concurrency RESTful API using a modular architecture for efficient request handling.
-- **[TypeScript:](https://www.typescriptlang.org/)** Utilized for strict type-checking across business logic, ensuring reliability in complex data processing tasks.
-- **[Prisma ORM:](https://www.prisma.io/)** Employed as a next-generation ORM to manage PostgreSQL interactions with a type-safe API and automated migrations.
-- **[PostgreSQL:](https://www.postgresql.org/)** Relational database chosen for its reliability and support for queries involving product history and user alerts.
-- **[JSON Web Tokens (JWT):](https://jwt.io/)** Facilitates stateless, secure authentication and fine-grained authorization for protected API routes.
-- **[Bcrypt.js:](https://www.npmjs.com/package/bcryptjs)** Ensures industry-standard security through salted one-way hashing of user credentials.
-- **[Nodemailer:](https://nodemailer.com/)** Configured to handle automated SMTP communication for real-time price-drop email notifications.
-- **[node-cron:](https://www.npmjs.com/package/node-cron)** Orchestrates scheduled background jobs, including the ingestor and alertChecker services, for automated monitoring.
-- **[Cors:](https://www.npmjs.com/package/cors)** Implemented to manage secure cross-origin resource sharing between the frontend and API layers.
+- **[Prisma ORM:](https://www.prisma.io/) & [PostgreSQL:](https://www.postgresql.org/)** Type-safe ORM with strict relational schema enforcement and automated migrations.
+- **[JSON Web Tokens (JWT):](https://jwt.io/) & [Bcrypt.js:](https://www.npmjs.com/package/bcryptjs)** Stateless authentication with industry-standard secure password hashing.
+- **[Nodemailer:](https://nodemailer.com/) & [Node-Cron:](https://www.npmjs.com/package/node-cron)** Orchestrates background ingestion workers and automated SMTP communication for email alert dispatch.
 
 ## 🛠️ Setup & Installation
 
